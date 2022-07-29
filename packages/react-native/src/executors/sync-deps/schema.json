@@ -9,6 +9,10 @@
     "include": {
       "type": "string",
       "description": "A comma-separated list of additional npm packages to include. e.g. `nx sync-deps --include=react-native-gesture-handler,react-native-safe-area-context`"
+    },
+    "exclude": {
+      "type": "string",
+      "description": "A comma-separated list of npm packages to exclude. e.g. `nx sync-deps --include=history,redux`"
     }
   }
 }

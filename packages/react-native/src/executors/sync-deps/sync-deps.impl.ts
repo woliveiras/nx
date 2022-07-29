@@ -25,7 +25,8 @@ export default async function* syncDepsExecutor(
       context.projectName,
       projectRoot,
       context.root,
-      options.include
+      options.include,
+      options.exclude
     )
   );
 
@@ -36,14 +37,16 @@ export async function syncDeps(
   projectName: string,
   projectRoot: string,
   workspaceRoot: string,
-  include?: string
+  include?: string,
+  exclude?: string
 ): Promise<string[]> {
   const graph = await createProjectGraphAsync();
-  const npmDeps = findAllNpmDependencies(graph, projectName);
+  let npmDeps = findAllNpmDependencies(graph, projectName);
   const packageJsonPath = join(workspaceRoot, projectRoot, 'package.json');
   const packageJson = readJsonFile(packageJsonPath);
   const newDeps = [];
   const includeDeps = include?.split(',');
+  const excludeDeps = exclude?.split(',');
   let updated = false;
 
   if (!packageJson.dependencies) {
@@ -53,6 +56,9 @@ export async function syncDeps(
 
   if (includeDeps) {
     npmDeps.push(...includeDeps);
+  }
+  if (excludeDeps) {
+    npmDeps = npmDeps.filter((dep) => !excludeDeps.includes(dep));
   }
 
   npmDeps.forEach((dep) => {

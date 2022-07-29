@@ -1,3 +1,4 @@
 export interface ReactNativeSyncDepsOptions {
-  include: string;
+  include?: string;
+  exclude?: string;
 }
