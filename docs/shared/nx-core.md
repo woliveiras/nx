@@ -16,6 +16,10 @@ This is what is generated:
 
 ```text
 packages/
+tools
+.editorconfig
+.prettierignore
+.prettierrc
 nx.json
 tsconfig.base.json
 package.json
@@ -31,9 +35,13 @@ package.json
   "scripts": {},
   "private": true,
   "devDependencies": {
-    "nx": "14.0.0",
-    "@nrwl/workspace": "14.0.0"
-  }
+    "@nrwl/cli": "14.5.4",
+    "@nrwl/nx-cloud": "latest",
+    "@nrwl/workspace": "14.5.4",
+    "nx": "14.5.4",
+    "prettier": "^2.6.2",
+    "typescript": "~4.7.2"
+  },
 }
 ```
 
@@ -42,11 +50,19 @@ package.json
 ```json
 {
   "extends": "nx/presets/npm.json",
+  "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "npmScope": "myorg",
   "tasksRunnerOptions": {
     "default": {
-      "runner": "nx/tasks-runners/default",
+      "runner": "@nrwl/nx-cloud",
       "options": {
-        "cacheableOperations": ["build", "lint", "test", "e2e"]
+        "cacheableOperations": [
+          "build",
+          "lint",
+          "test",
+          "e2e"
+        ],
+        "accessToken": "TOKEN"
       }
     }
   }
